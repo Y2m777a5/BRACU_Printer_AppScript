@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            padding: 28px;
+            width: 100%;
+            max-width: 440px;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #0460B6;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #0f172a;
+        }
+
+        .drop-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 20px 16px;
+            text-align: center;
+            background-color: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .drop-zone:hover,
+        .drop-zone.dragover {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
+
+        .drop-icon {
+            width: 32px;
+            height: 32px;
+            stroke: #64748b;
+            margin-bottom: 6px;
+        }
+
+        .drop-text {
+            font-size: 14px;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .drop-text .highlight {
+            color: #7c3aed;
+            font-weight: 600;
+        }
+
+        .drop-subtext {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* Selected File List Below Drop Zone */
+        .file-list {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 160px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .file-info {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin-right: 8px;
+        }
+
+        .file-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e293b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-size {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .delete-btn {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            width: auto;
+            margin: 0;
+            transition: background-color 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #fafafa;
+        }
+
+        button.submit-btn {
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        button.submit-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        button.submit-btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        #status {
+            margin-top: 16px;
+            font-weight: 500;
+            font-size: 14px;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        .success {
+            color: #16a34a;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h2>BRACU Print Station</h2>
+
+        <div class="form-group">
+            <label>Select Files:</label>
+            <div class="drop-zone" id="dropZone" onclick="document.getElementById('file').click()">
+                <svg class="drop-icon" id="dropIcon" viewBox="0 0 24 24" fill="none" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <div class="drop-text" id="dropText">
+                    <span class="highlight">Click to upload</span> or drag and drop
+                </div>
+                <div class="drop-subtext" id="dropSubtext">PDF, DOCX, PPTX, XLSX (max 25 MB total)</div>
+            </div>
+            <input type="file" id="file" accept=".pdf,.docx,.pptx,.xlsx" multiple style="display: none;"
+                onchange="handleFileSelect(this)">
+
+            <!-- Container for list of chosen files -->
+            <div id="fileList" class="file-list"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="printMode">Print Options:</label>
+            <select id="printMode">
+                <option value="single">Single-sided</option>
+                <option value="duplex">Double-sided (#duplex)</option>
+            </select>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" onclick="uploadFiles()">Send to Printer</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        var selectedFiles = [];
+        var dropZone = document.getElementById('dropZone');
+        var fileInput = document.getElementById('file');
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => { e.preventDefault(); dropZone.classList.remove('dragover'); });
+        });
+
+        dropZone.addEventListener('drop', e => {
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                addFiles(e.dataTransfer.files);
+            }
+        });
+
+        function handleFileSelect(input) {
+            if (input.files && input.files.length > 0) {
+                addFiles(input.files);
+            }
+        }
+
+        function addFiles(files) {
+            for (var i = 0; i < files.length; i++) {
+                selectedFiles.push(files[i]);
+            }
+            fileInput.value = ''; // Reset input to allow re-selecting same files
+            renderFileList();
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            renderFileList();
+        }
+
+        function renderFileList() {
+            var fileListContainer = document.getElementById('fileList');
+            fileListContainer.innerHTML = '';
+            var totalSizeMB = 0;
+
+            selectedFiles.forEach(function (file, index) {
+                var sizeMB = file.size / (1024 * 1024);
+                totalSizeMB += sizeMB;
+
+                var item = document.createElement('div');
+                item.className = 'file-item';
+
+                var fileInfo = document.createElement('div');
+                fileInfo.className = 'file-info';
+
+                var fileName = document.createElement('span');
+                fileName.className = 'file-name';
+                fileName.innerText = file.name;
+
+                var fileSize = document.createElement('span');
+                fileSize.className = 'file-size';
+                fileSize.innerText = sizeMB.toFixed(2) + ' MB';
+
+                fileInfo.appendChild(fileName);
+                fileInfo.appendChild(fileSize);
+
+                var deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.innerHTML = '✕';
+                deleteBtn.title = 'Remove file';
+                deleteBtn.onclick = function (e) {
+                    e.stopPropagation();
+                    removeFile(index);
+                };
+
+                item.appendChild(fileInfo);
+                item.appendChild(deleteBtn);
+                fileListContainer.appendChild(item);
+            });
+
+            updateDropZoneUI(totalSizeMB);
+        }
+
+        function updateDropZoneUI(totalSizeMB) {
+            var dropText = document.getElementById('dropText');
+            var dropSubtext = document.getElementById('dropSubtext');
+            var dropIcon = document.getElementById('dropIcon');
+
+            if (selectedFiles.length > 0) {
+                dropZone.style.borderColor = '#16a34a';
+                dropZone.style.backgroundColor = '#f0fdf4';
+                dropIcon.style.stroke = '#16a34a';
+
+                dropText.innerHTML = '<span style="color: #15803d; font-weight: 600;">✓ ' + selectedFiles.length + ' file(s) added</span>';
+                dropSubtext.innerText = totalSizeMB.toFixed(2) + ' MB total — Click or drag to add more';
+            } else {
+                dropZone.style.borderColor = '#cbd5e1';
+                dropZone.style.backgroundColor = '#f8fafc';
+                dropIcon.style.stroke = '#64748b';
+
+                dropText.innerHTML = '<span class="highlight">Click to upload</span> or drag and drop';
+                dropSubtext.innerText = 'PDF, DOCX, PPTX, XLSX (max 25 MB total)';
+            }
+        }
+
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                var reader = new FileReader();
+                reader.onload = () => resolve({
+                    fileName: file.name,
+                    mimeType: file.type,
+                    base64: reader.result.split(',')[1]
+                });
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function uploadFiles() {
+            var printMode = document.getElementById('printMode').value;
+            var statusDiv = document.getElementById('status');
+            var btn = document.getElementById('submitBtn');
+
+            if (!selectedFiles.length) {
+                statusDiv.className = 'error';
+                statusDiv.innerText = 'Please select at least one file.';
+                return;
+            }
+
+            var totalSize = 0;
+            for (var i = 0; i < selectedFiles.length; i++) {
+                totalSize += selectedFiles[i].size;
+            }
+
+            if (totalSize > 25 * 1024 * 1024) {
+                statusDiv.className = 'error';
+                statusDiv.innerText = 'Combined file size exceeds 25 MB.';
+                return;
+            }
+
+            btn.disabled = true;
+            statusDiv.className = '';
+            statusDiv.innerText = 'Processing ' + selectedFiles.length + ' file(s)...';
+
+            try {
+                var filePromises = selectedFiles.map(readFileAsBase64);
+                var fileDataArray = await Promise.all(filePromises);
+
+                var payload = {
+                    files: fileDataArray,
+                    printMode: printMode
+                };
+
+                google.script.run
+                    .withSuccessHandler(function (response) {
+                        statusDiv.className = 'success';
+                        statusDiv.innerText = response;
+                        btn.disabled = false;
+                        selectedFiles = [];
+                        renderFileList();
+                    })
+                    .withFailureHandler(function (error) {
+                        statusDiv.className = 'error';
+                        statusDiv.innerText = 'Error: ' + error.message;
+                        btn.disabled = false;
+                    })
+                    .processUpload(payload);
+
+            } catch (err) {
+                statusDiv.className = 'error';
+                statusDiv.innerText = 'Error reading files: ' + err.message;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>

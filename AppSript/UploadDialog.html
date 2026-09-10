@@ -203,9 +203,14 @@
             transition: background-color 0.15s;
         }
 
-        .stepper-btn:hover:not(:disabled) {
-            background-color: #e2e8f0;
-            color: #0f172a;
+        .stepper-btn:hover:not(:disabled).stepper-btn-minus {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        .stepper-btn:hover:not(:disabled).stepper-btn-plus {
+            background-color: #dcfce7;
+            color: #16a34a;
         }
 
         .stepper-btn:disabled {
@@ -229,80 +234,91 @@
             font-weight: 500;
         }
 
-        .custom-select-wrapper {
+        /* Chip Dropdown Component */
+        .chip-select-wrapper {
             position: relative;
             display: block;
             width: 100%;
             user-select: none;
         }
 
-        .custom-select-trigger {
+        .chip-trigger {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 16px;
+            width: 100%;
+            padding: 6px 14px;
             font-size: 14px;
             font-weight: 500;
-            border-radius: 100px;
+            border-radius: 12px;
             cursor: pointer;
             border: 1px solid transparent;
-            transition: all 0.2s ease;
+            transition: filter 0.15s ease;
         }
 
-        .custom-arrow {
+        .chip-trigger:hover {
+            filter: brightness(0.96);
+        }
+
+        .chip-arrow {
             width: 0;
             height: 0;
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
             border-top: 5px solid currentColor;
-            margin-left: 10px;
+            margin-left: 12px;
             transition: transform 0.2s ease;
         }
 
-        .custom-select-wrapper.open .custom-arrow {
+        .chip-select-wrapper.open .chip-arrow {
             transform: rotate(180deg);
         }
 
-        .custom-options-menu {
+        .chip-options-menu {
             position: absolute;
-            top: calc(100% + 4px);
+            top: calc(100% + 6px);
             left: 0;
             right: 0;
             background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+            padding: 8px;
             display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
             z-index: 100;
-            overflow: hidden;
-            padding: 4px 0;
         }
 
-        .custom-select-wrapper.open .custom-options-menu {
-            display: block;
+        .chip-select-wrapper.open .chip-options-menu {
+            display: flex;
         }
 
-        .custom-option {
-            padding: 8px 16px;
+        .chip-option {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 6px 14px;
             font-size: 14px;
             font-weight: 500;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background 0.15s ease;
+            transition: filter 0.15s ease;
+            box-sizing: border-box;
         }
 
-        .custom-option:hover {
-            opacity: 0.9;
+        .chip-option:hover {
+            filter: brightness(0.95);
         }
 
-        /* Google Sheets Color Schemes */
         .color-single {
-            background-color: #dcf2e1 !important;
-            color: #1e6b36 !important;
+            background-color: #dbeafe !important;
+            color: #1d4ed8 !important;
         }
 
         .color-duplex {
-            background-color: #fef08a !important;
-            color: #713f12 !important;
+            background-color: #fee2d5 !important;
+            color: #c2410c !important;
         }
 
         button.submit-btn {
@@ -354,6 +370,7 @@
             adjusted directly on the physical printer touchscreen.
         </div>
 
+
         <div class="form-group">
             <label>Select Files:</label>
             <div class="drop-zone" id="dropZone" onclick="document.getElementById('file').click()">
@@ -378,18 +395,18 @@
         <div class="form-group">
             <label for="printMode">Print Options:</label>
 
-            <!-- Google Sheets Style Custom Dropdown Component -->
-            <div class="custom-select-wrapper" id="customDropdown">
-                <div class="custom-select-trigger color-single">
+            <!-- Chip-style Print Mode Dropdown -->
+            <div class="chip-select-wrapper" id="printModeDropdown">
+                <div class="chip-trigger color-single">
                     <span class="trigger-text">Single-sided</span>
-                    <div class="custom-arrow"></div>
+                    <div class="chip-arrow"></div>
                 </div>
-
-                <div class="custom-options-menu">
-                    <div class="custom-option color-single" data-value="single">Single-sided</div>
-                    <div class="custom-option color-duplex" data-value="duplex">Double-sided (#duplex)</div>
+                <div class="chip-options-menu">
+                    <div class="chip-option color-single" data-value="single" data-class="color-single">Single-sided
+                    </div>
+                    <div class="chip-option color-duplex" data-value="duplex" data-class="color-duplex">Double-sided
+                        (#duplex)</div>
                 </div>
-
                 <input type="hidden" id="printMode" name="printMode" value="single">
             </div>
         </div>
@@ -403,38 +420,30 @@
         var dropZone = document.getElementById('dropZone');
         var fileInput = document.getElementById('file');
 
-        // Custom Dropdown Logic
-        const wrapper = document.getElementById('customDropdown');
-        const trigger = wrapper.querySelector('.custom-select-trigger');
-        const triggerText = wrapper.querySelector('.trigger-text');
-        const optionsMenu = wrapper.querySelector('.custom-options-menu');
-        const hiddenInput = wrapper.querySelector('#printMode');
+        // Chip Dropdown — Print Mode
+        const pmWrapper = document.getElementById('printModeDropdown');
+        const pmTrigger = pmWrapper.querySelector('.chip-trigger');
+        const pmTriggerText = pmWrapper.querySelector('.trigger-text');
+        const pmOptionsMenu = pmWrapper.querySelector('.chip-options-menu');
+        const pmHiddenInput = pmWrapper.querySelector('#printMode');
 
-        trigger.addEventListener('click', (e) => {
+        pmTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            wrapper.classList.toggle('open');
+            pmWrapper.classList.toggle('open');
         });
 
-        optionsMenu.addEventListener('click', (e) => {
-            const selectedOption = e.target.closest('.custom-option');
-            if (!selectedOption) return;
-
-            const val = selectedOption.getAttribute('data-value');
-            const text = selectedOption.textContent;
-
-            triggerText.textContent = text;
-            hiddenInput.value = val;
-
-            trigger.className = 'custom-select-trigger';
-            if (val === 'single') trigger.classList.add('color-single');
-            if (val === 'duplex') trigger.classList.add('color-duplex');
-
-            wrapper.classList.remove('open');
+        pmOptionsMenu.addEventListener('click', (e) => {
+            const opt = e.target.closest('.chip-option');
+            if (!opt) return;
+            const val = opt.getAttribute('data-value');
+            const colorClass = opt.getAttribute('data-class');
+            pmTriggerText.textContent = opt.textContent;
+            pmHiddenInput.value = val;
+            pmTrigger.className = 'chip-trigger ' + colorClass;
+            pmWrapper.classList.remove('open');
         });
 
-        document.addEventListener('click', () => {
-            wrapper.classList.remove('open');
-        });
+        document.addEventListener('click', () => pmWrapper.classList.remove('open'));
 
         // File Drag and Drop Listeners
         ['dragenter', 'dragover'].forEach(eventName => {
@@ -539,14 +548,14 @@
 
                 var label = document.createElement('span');
                 label.className = 'stepper-label';
-                label.innerText = 'Copies:';
+                label.innerText = 'Copie(s):';
 
                 var stepper = document.createElement('div');
                 stepper.className = 'stepper';
 
                 var minusBtn = document.createElement('button');
                 minusBtn.type = 'button';
-                minusBtn.className = 'stepper-btn';
+                minusBtn.className = 'stepper-btn stepper-btn-minus';
                 minusBtn.innerText = '−';
                 minusBtn.disabled = (copies <= 1);
                 minusBtn.onclick = function () { changeCopies(index, -1); };
@@ -557,7 +566,7 @@
 
                 var plusBtn = document.createElement('button');
                 plusBtn.type = 'button';
-                plusBtn.className = 'stepper-btn';
+                plusBtn.className = 'stepper-btn stepper-btn-plus';
                 plusBtn.innerText = '+';
 
                 // Disable plus button if next copy would exceed 25 MB limit or 40 copies

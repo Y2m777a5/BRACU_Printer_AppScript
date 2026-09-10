@@ -5,46 +5,179 @@
     <base target="_top">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        :root {
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #475569;
+            --heading-color: #0460B6;
+            --info-bg: #f0f9ff;
+            --info-border: #0284c7;
+            --info-text: #0369a1;
+            --drop-bg: #f8fafc;
+            --drop-border: #cbd5e1;
+            --drop-hover-bg: #eff6ff;
+            --drop-hover-border: #2563eb;
+            --file-item-bg: #f8fafc;
+            --file-item-border: #e2e8f0;
+            --file-name-color: #1e293b;
+            --stepper-bg: #ffffff;
+            --stepper-border: #cbd5e1;
+            --stepper-btn-bg: #f1f5f9;
+            --stepper-btn-color: #334155;
+            --stepper-disabled-bg: #f8fafc;
+            --stepper-disabled-color: #cbd5e1;
+            --input-bg: #ffffff;
+            --input-border: #cbd5e1;
+            --input-text: #0f172a;
+            --chip-menu-bg: #ffffff;
+            --chip-menu-shadow: rgba(0, 0, 0, 0.12);
+            --toggle-bg: #e2e8f0;
+            --toggle-thumb: #ffffff;
+        }
+
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #cbd5e1;
+            --heading-color: #38bdf8;
+            --info-bg: #0c4a6e;
+            --info-border: #0284c7;
+            --info-text: #e0f2fe;
+            --drop-bg: #0f172a;
+            --drop-border: #334155;
+            --drop-hover-bg: #1e293b;
+            --drop-hover-border: #38bdf8;
+            --file-item-bg: #0f172a;
+            --file-item-border: #334155;
+            --file-name-color: #f1f5f9;
+            --stepper-bg: #1e293b;
+            --stepper-border: #334155;
+            --stepper-btn-bg: #334155;
+            --stepper-btn-color: #f1f5f9;
+            --stepper-disabled-bg: #0f172a;
+            --stepper-disabled-color: #475569;
+            --input-bg: #0f172a;
+            --input-border: #334155;
+            --input-text: #f8fafc;
+            --chip-menu-bg: #1e293b;
+            --chip-menu-shadow: rgba(0, 0, 0, 0.5);
+            --toggle-bg: #334155;
+            --toggle-thumb: #38bdf8;
+        }
+
         * {
             box-sizing: border-box;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f6f8;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .card {
-            background: #ffffff;
+            background: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
             padding: 24px;
             width: 100%;
             max-width: 440px;
+            transition: background-color 0.3s ease;
         }
 
         h2 {
             margin-top: 0;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
             font-size: 20px;
-            color: #0460B6;
+            color: var(--heading-color);
             text-align: center;
         }
 
+        .dark-mode-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .dark-mode-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            user-select: none;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            width: 38px;
+            height: 20px;
+            margin: 0;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--toggle-bg);
+            transition: .3s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--toggle-thumb);
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #2563eb;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(18px);
+            background-color: #ffffff;
+        }
+
         .info-banner {
-            background-color: #f0f9ff;
-            border-left: 4px solid #0284c7;
+            background-color: var(--info-bg);
+            border-left: 4px solid var(--info-border);
             padding: 10px 12px;
             border-radius: 4px;
             margin-bottom: 16px;
             font-size: 12px;
-            color: #0369a1;
+            color: var(--info-text);
             line-height: 1.4;
         }
 
@@ -57,35 +190,35 @@
             display: block;
             margin-bottom: 8px;
             font-size: 14px;
-            color: #0f172a;
+            color: var(--text-primary);
         }
 
         .drop-zone {
-            border: 2px dashed #cbd5e1;
+            border: 2px dashed var(--drop-border);
             border-radius: 8px;
             padding: 18px 14px;
             text-align: center;
-            background-color: #f8fafc;
+            background-color: var(--drop-bg);
             cursor: pointer;
             transition: all 0.2s ease-in-out;
         }
 
         .drop-zone:hover,
         .drop-zone.dragover {
-            border-color: #2563eb;
-            background-color: #eff6ff;
+            border-color: var(--drop-hover-border);
+            background-color: var(--drop-hover-bg);
         }
 
         .drop-icon {
             width: 28px;
             height: 28px;
-            stroke: #64748b;
+            stroke: var(--text-secondary);
             margin-bottom: 4px;
         }
 
         .drop-text {
             font-size: 13px;
-            color: #334155;
+            color: var(--text-primary);
             font-weight: 500;
         }
 
@@ -96,7 +229,7 @@
 
         .drop-subtext {
             font-size: 11px;
-            color: #64748b;
+            color: var(--text-secondary);
             margin-top: 4px;
         }
 
@@ -112,8 +245,8 @@
 
         /* Individual File Item Card */
         .file-item {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background-color: var(--file-item-bg);
+            border: 1px solid var(--file-item-border);
             border-radius: 8px;
             padding: 10px 12px;
             display: flex;
@@ -130,7 +263,7 @@
         .file-name {
             font-size: 13px;
             font-weight: 600;
-            color: #1e293b;
+            color: var(--file-name-color);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -147,7 +280,7 @@
             font-weight: bold;
             font-size: 15px;
             line-height: 1;
-            transition: background-color 0.2s;
+            transition: background-color 0.4s;
         }
 
         .delete-btn:hover {
@@ -161,10 +294,10 @@
             align-items: center;
             justify-content: space-between;
             font-size: 12px;
-            color: #64748b;
+            color: var(--text-secondary);
         }
 
-        /* Stepper Component (Minus, Count, Plus) */
+        /* Stepper Component (Minus, Count Input, Plus) */
         .stepper-container {
             display: inline-flex;
             align-items: center;
@@ -174,23 +307,23 @@
         .stepper-label {
             font-size: 11px;
             font-weight: 500;
-            color: #475569;
+            color: var(--text-muted);
         }
 
         .stepper {
             display: inline-flex;
             align-items: center;
-            background-color: #ffffff;
-            border: 1px solid #cbd5e1;
+            background-color: var(--stepper-bg);
+            border: 1px solid var(--stepper-border);
             border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
         }
 
         .stepper-btn {
-            background: #f1f5f9;
+            background: var(--stepper-btn-bg);
             border: none;
-            color: #334155;
+            color: var(--stepper-btn-color);
             font-weight: bold;
             font-size: 14px;
             width: 28px;
@@ -200,7 +333,7 @@
             align-items: center;
             justify-content: center;
             user-select: none;
-            transition: background-color 0.15s;
+            transition: background-color 0.4s;
         }
 
         .stepper-btn:hover:not(:disabled).stepper-btn-minus {
@@ -214,23 +347,34 @@
         }
 
         .stepper-btn:disabled {
-            color: #cbd5e1;
+            color: var(--stepper-disabled-color);
             cursor: not-allowed;
-            background-color: #f8fafc;
+            background-color: var(--stepper-disabled-bg);
         }
 
-        .stepper-count {
-            padding: 0 10px;
+        .stepper-input {
+            width: 38px;
+            height: 26px;
+            border: none;
+            background: transparent;
+            text-align: center;
             font-weight: 600;
             font-size: 12px;
-            color: #0f172a;
-            min-width: 24px;
-            text-align: center;
+            color: var(--input-text);
+            outline: none;
+            padding: 0 2px;
+            appearance: textfield;
+        }
+
+        .stepper-input::-webkit-outer-spin-button,
+        .stepper-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         .file-size-info {
             font-size: 11px;
-            color: #64748b;
+            color: var(--text-secondary);
             font-weight: 500;
         }
 
@@ -279,9 +423,9 @@
             top: calc(100% + 6px);
             left: 0;
             right: 0;
-            background: #ffffff;
+            background: var(--chip-menu-bg);
             border-radius: 10px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 14px var(--chip-menu-shadow);
             padding: 8px;
             display: none;
             flex-direction: column;
@@ -316,9 +460,19 @@
             color: #1d4ed8 !important;
         }
 
+        body.dark-mode .color-single {
+            background-color: #1e3a8a !important;
+            color: #93c5fd !important;
+        }
+
         .color-duplex {
             background-color: #fee2d5 !important;
             color: #c2410c !important;
+        }
+
+        body.dark-mode .color-duplex {
+            background-color: #7c2d12 !important;
+            color: #ffedd5 !important;
         }
 
         button.submit-btn {
@@ -358,6 +512,14 @@
         .error {
             color: #dc2626;
         }
+
+        body.dark-mode .success {
+            color: #4ade80;
+        }
+
+        body.dark-mode .error {
+            color: #f87171;
+        }
     </style>
 </head>
 
@@ -365,11 +527,19 @@
     <div class="card">
         <h2>BRACU Print Station</h2>
 
-        <div class="info-banner">
-            ℹ️ <strong>Print Queue Info:</strong> Jobs expire after <strong>4 hours</strong>. Page ranges can be
-            adjusted directly on the physical printer touchscreen.
+        <div class="dark-mode-container">
+            <span class="dark-mode-label">☀️ Light</span>
+            <label class="theme-switch" for="darkModeToggle">
+                <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode(this.checked)">
+                <span class="slider"></span>
+            </label>
+            <span class="dark-mode-label">🌙 Dark</span>
         </div>
 
+        <div class="info-banner">
+            ℹ️ <strong>Print Queue Info:</strong> Jobs expire after <strong>4 hours</strong>. Page ranges can be
+            adjusted directly on the physical printer touchscreen. Max 80 copies per file allowed.
+        </div>
 
         <div class="form-group">
             <label>Select Files:</label>
@@ -419,6 +589,22 @@
         var selectedFiles = [];
         var dropZone = document.getElementById('dropZone');
         var fileInput = document.getElementById('file');
+        const MAX_COPIES_LIMIT = 80;
+        const MAX_TOTAL_BYTES = 25 * 1024 * 1024; // 25 MB
+
+        // Initialize Dark Mode Preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.getElementById('darkModeToggle').checked = true;
+            document.body.classList.add('dark-mode');
+        }
+
+        function toggleDarkMode(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+        }
 
         // Chip Dropdown — Print Mode
         const pmWrapper = document.getElementById('printModeDropdown');
@@ -466,9 +652,31 @@
             }
         }
 
+        function getMaxAllowedCopies(fileIndex, requestedCopies) {
+            var file = selectedFiles[fileIndex].file;
+            var otherFilesBytes = 0;
+            for (var i = 0; i < selectedFiles.length; i++) {
+                if (i !== fileIndex) {
+                    otherFilesBytes += selectedFiles[i].file.size * selectedFiles[i].copies;
+                }
+            }
+
+            var remainingBytes = MAX_TOTAL_BYTES - otherFilesBytes;
+            if (remainingBytes <= 0) {
+                return 1;
+            }
+
+            var maxByMB = Math.floor(remainingBytes / file.size);
+            var maxAllowed = Math.min(MAX_COPIES_LIMIT, maxByMB);
+            return Math.max(1, Math.min(requestedCopies, maxAllowed));
+        }
+
         function addFiles(files) {
             for (var i = 0; i < files.length; i++) {
+                var newIndex = selectedFiles.length;
                 selectedFiles.push({ file: files[i], copies: 1 });
+                // Enforce limits for initial count of 1
+                selectedFiles[newIndex].copies = getMaxAllowedCopies(newIndex, 1);
             }
             fileInput.value = ''; // Reset input to allow re-selecting same files
             renderFileList();
@@ -481,12 +689,17 @@
 
         function changeCopies(index, delta) {
             var currentCopies = selectedFiles[index].copies;
-            var newCopies = currentCopies + delta;
+            var targetCopies = currentCopies + delta;
+            selectedFiles[index].copies = getMaxAllowedCopies(index, targetCopies);
+            renderFileList();
+        }
 
-            if (newCopies < 1) newCopies = 1;
-            if (newCopies > 40) newCopies = 40;
-
-            selectedFiles[index].copies = newCopies;
+        function setDirectCopies(index, val) {
+            var parsed = parseInt(val, 10);
+            if (isNaN(parsed) || parsed < 1) {
+                parsed = 1;
+            }
+            selectedFiles[index].copies = getMaxAllowedCopies(index, parsed);
             renderFileList();
         }
 
@@ -542,7 +755,7 @@
                 var controlsRow = document.createElement('div');
                 controlsRow.className = 'file-controls-row';
 
-                // Stepper component (Minus, Count, Plus)
+                // Stepper component (Minus, Count Input, Plus)
                 var stepperContainer = document.createElement('div');
                 stepperContainer.className = 'stepper-container';
 
@@ -560,22 +773,31 @@
                 minusBtn.disabled = (copies <= 1);
                 minusBtn.onclick = function () { changeCopies(index, -1); };
 
-                var countSpan = document.createElement('span');
-                countSpan.className = 'stepper-count';
-                countSpan.innerText = copies;
+                var countInput = document.createElement('input');
+                countInput.type = 'number';
+                countInput.className = 'stepper-input';
+                countInput.value = copies;
+                countInput.min = 1;
+                countInput.max = MAX_COPIES_LIMIT;
+                countInput.onchange = function () { setDirectCopies(index, this.value); };
+                countInput.onkeydown = function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        setDirectCopies(index, this.value);
+                    }
+                };
+
+                var maxAllowedForPlus = getMaxAllowedCopies(index, copies + 1);
 
                 var plusBtn = document.createElement('button');
                 plusBtn.type = 'button';
                 plusBtn.className = 'stepper-btn stepper-btn-plus';
                 plusBtn.innerText = '+';
-
-                // Disable plus button if next copy would exceed 25 MB limit or 40 copies
-                var nextTotalBytes = grandTotalBytes + file.size;
-                plusBtn.disabled = (copies >= 40 || nextTotalBytes > 25 * 1024 * 1024);
+                plusBtn.disabled = (copies >= maxAllowedForPlus);
                 plusBtn.onclick = function () { changeCopies(index, 1); };
 
                 stepper.appendChild(minusBtn);
-                stepper.appendChild(countSpan);
+                stepper.appendChild(countInput);
                 stepper.appendChild(plusBtn);
 
                 stepperContainer.appendChild(label);
@@ -606,15 +828,15 @@
 
             if (selectedFiles.length > 0) {
                 dropZone.style.borderColor = '#16a34a';
-                dropZone.style.backgroundColor = '#f0fdf4';
+                dropZone.style.backgroundColor = document.body.classList.contains('dark-mode') ? '#052e16' : '#f0fdf4';
                 dropIcon.style.stroke = '#16a34a';
 
-                dropText.innerHTML = '<span style="color: #15803d; font-weight: 600;">✓ ' + selectedFiles.length + ' file(s) added (' + totalJobs + ' total print job' + (totalJobs > 1 ? 's' : '') + ')</span>';
+                dropText.innerHTML = '<span style="color: #16a34a; font-weight: 600;">✓ ' + selectedFiles.length + ' file(s) added (' + totalJobs + ' total print job' + (totalJobs > 1 ? 's' : '') + ')</span>';
                 dropSubtext.innerText = grandTotalMB.toFixed(2) + ' MB total attachment size';
             } else {
-                dropZone.style.borderColor = '#cbd5e1';
-                dropZone.style.backgroundColor = '#f8fafc';
-                dropIcon.style.stroke = '#64748b';
+                dropZone.style.borderColor = 'var(--drop-border)';
+                dropZone.style.backgroundColor = 'var(--drop-bg)';
+                dropIcon.style.stroke = 'var(--text-secondary)';
 
                 dropText.innerHTML = '<span class="highlight">Click to upload</span> or drag and drop';
                 dropSubtext.innerText = 'PDF, DOCX, PPTX, XLSX (max 25 MB total)';
@@ -652,7 +874,7 @@
                 totalJobs += selectedFiles[i].copies;
             }
 
-            if (totalBytes > 25 * 1024 * 1024) {
+            if (totalBytes > MAX_TOTAL_BYTES) {
                 statusDiv.className = 'error';
                 statusDiv.innerText = 'Total attachment size across all file copies exceeds 25 MB (' + (totalBytes / (1024 * 1024)).toFixed(2) + ' MB).';
                 return;

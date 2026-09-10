@@ -194,7 +194,6 @@
             color: var(--text-primary);
         }
 
-        /*drop zone*/
         .drop-zone {
             border: 2px dashed var(--drop-border);
             border-radius: 8px;
@@ -209,6 +208,15 @@
         .drop-zone.dragover {
             border-color: var(--drop-hover-border);
             background-color: var(--drop-hover-bg);
+        }
+
+        .drop-zone.has-files {
+            border-color: #16a34a;
+            background-color: rgba(22, 163, 74, 0.08);
+        }
+
+        .drop-zone.has-files .drop-icon {
+            stroke: #16a34a;
         }
 
         .drop-zone:active {
@@ -644,6 +652,7 @@
             } else {
                 document.body.classList.remove('dark-mode');
             }
+            renderFileList();
         }
 
         // Chip Dropdown — Print Mode
@@ -864,20 +873,13 @@
         function updateDropZoneUI(grandTotalMB, totalJobs) {
             var dropText = document.getElementById('dropText');
             var dropSubtext = document.getElementById('dropSubtext');
-            var dropIcon = document.getElementById('dropIcon');
 
             if (selectedFiles.length > 0) {
-                dropZone.style.borderColor = '#16a34a';
-                dropZone.style.backgroundColor = document.body.classList.contains('dark-mode') ? '#052e16' : '#f0fdf4';
-                dropIcon.style.stroke = '#16a34a';
-
+                dropZone.classList.add('has-files');
                 dropText.innerHTML = '<span style="color: #16a34a; font-weight: 600;">✓ ' + selectedFiles.length + ' file(s) added (' + totalJobs + ' total print job' + (totalJobs > 1 ? 's' : '') + ')</span>';
                 dropSubtext.innerText = grandTotalMB.toFixed(2) + ' MB total attachment size';
             } else {
-                dropZone.style.borderColor = 'var(--drop-border)';
-                dropZone.style.backgroundColor = 'var(--drop-bg)';
-                dropIcon.style.stroke = 'var(--text-secondary)';
-
+                dropZone.classList.remove('has-files');
                 dropText.innerHTML = '<span class="highlight">Click to upload</span> or drag and drop';
                 dropSubtext.innerText = 'PDF, DOCX, PPTX, XLSX (max 25 MB total)';
             }

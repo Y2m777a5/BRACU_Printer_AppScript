@@ -71,6 +71,7 @@
 
         * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -145,7 +146,7 @@
             right: 0;
             bottom: 0;
             background-color: var(--toggle-bg);
-            transition: .3s;
+            transition: background-color 0.3s ease;
             border-radius: 20px;
         }
 
@@ -157,7 +158,7 @@
             left: 3px;
             bottom: 3px;
             background-color: var(--toggle-thumb);
-            transition: .3s;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
             border-radius: 50%;
         }
 
@@ -201,12 +202,16 @@
             background-color: var(--drop-bg);
             cursor: pointer;
             transition: all 0.2s ease-in-out;
+            touch-action: manipulation;
         }
 
-        .drop-zone:hover,
         .drop-zone.dragover {
             border-color: var(--drop-hover-border);
             background-color: var(--drop-hover-bg);
+        }
+
+        .drop-zone:active {
+            transform: scale(0.99);
         }
 
         .drop-icon {
@@ -280,12 +285,12 @@
             font-weight: bold;
             font-size: 15px;
             line-height: 1;
-            transition: background-color 0.4s;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+            touch-action: manipulation;
         }
 
-        .delete-btn:hover {
-            background-color: #fee2e2;
-            color: #dc2626;
+        .delete-btn:active {
+            transform: scale(0.92);
         }
 
         /* File Controls & Stepper Row */
@@ -333,17 +338,12 @@
             align-items: center;
             justify-content: center;
             user-select: none;
-            transition: background-color 0.4s;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+            touch-action: manipulation;
         }
 
-        .stepper-btn:hover:not(:disabled).stepper-btn-minus {
-            background-color: #fee2e2;
-            color: #dc2626;
-        }
-
-        .stepper-btn:hover:not(:disabled).stepper-btn-plus {
-            background-color: #dcfce7;
-            color: #16a34a;
+        .stepper-btn:active:not(:disabled) {
+            transform: scale(0.92);
         }
 
         .stepper-btn:disabled {
@@ -397,11 +397,12 @@
             border-radius: 12px;
             cursor: pointer;
             border: 1px solid transparent;
-            transition: filter 0.15s ease;
+            transition: filter 0.15s ease, transform 0.1s ease;
+            touch-action: manipulation;
         }
 
-        .chip-trigger:hover {
-            filter: brightness(0.96);
+        .chip-trigger:active {
+            transform: scale(0.98);
         }
 
         .chip-arrow {
@@ -449,10 +450,11 @@
             cursor: pointer;
             transition: filter 0.15s ease;
             box-sizing: border-box;
+            touch-action: manipulation;
         }
 
-        .chip-option:hover {
-            filter: brightness(0.95);
+        .chip-option:active {
+            filter: brightness(0.90);
         }
 
         .color-single {
@@ -486,10 +488,12 @@
             font-size: 15px;
             font-weight: 600;
             margin-top: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease, filter 0.15s ease;
+            touch-action: manipulation;
         }
 
-        button.submit-btn:hover {
-            background-color: #1d4ed8;
+        button.submit-btn:active:not(:disabled) {
+            transform: scale(0.98);
         }
 
         button.submit-btn:disabled {
@@ -519,6 +523,41 @@
 
         body.dark-mode .error {
             color: #f87171;
+        }
+
+        /* Desktop Hover Effects (Consolidated block to prevent touch device hover sticking) */
+        @media (hover: hover) {
+            .drop-zone:hover {
+                border-color: var(--drop-hover-border);
+                background-color: var(--drop-hover-bg);
+            }
+
+            .delete-btn:hover {
+                background-color: #fee2e2;
+                color: #dc2626;
+            }
+
+            .stepper-btn:hover:not(:disabled).stepper-btn-minus {
+                background-color: #fee2e2;
+                color: #dc2626;
+            }
+
+            .stepper-btn:hover:not(:disabled).stepper-btn-plus {
+                background-color: #dcfce7;
+                color: #16a34a;
+            }
+
+            .chip-trigger:hover {
+                filter: brightness(0.96);
+            }
+
+            .chip-option:hover {
+                filter: brightness(0.95);
+            }
+
+            button.submit-btn:hover {
+                background-color: #1d4ed8;
+            }
         }
     </style>
 </head>

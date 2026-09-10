@@ -24,21 +24,32 @@
             background: #ffffff;
             border-radius: 12px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            padding: 28px;
+            padding: 24px;
             width: 100%;
             max-width: 440px;
         }
 
         h2 {
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             font-size: 20px;
             color: #0460B6;
             text-align: center;
         }
 
+        .info-banner {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0284c7;
+            padding: 10px 12px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            font-size: 12px;
+            color: #0369a1;
+            line-height: 1.4;
+        }
+
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         label {
@@ -52,7 +63,7 @@
         .drop-zone {
             border: 2px dashed #cbd5e1;
             border-radius: 8px;
-            padding: 20px 16px;
+            padding: 18px 14px;
             text-align: center;
             background-color: #f8fafc;
             cursor: pointer;
@@ -66,14 +77,14 @@
         }
 
         .drop-icon {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             stroke: #64748b;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .drop-text {
-            font-size: 14px;
+            font-size: 13px;
             color: #334155;
             font-weight: 500;
         }
@@ -84,36 +95,36 @@
         }
 
         .drop-subtext {
-            font-size: 12px;
+            font-size: 11px;
             color: #64748b;
             margin-top: 4px;
         }
 
-        /* Selected File List Below Drop Zone */
+        /* File List Container */
         .file-list {
             margin-top: 10px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            max-height: 160px;
+            gap: 8px;
+            max-height: 210px;
             overflow-y: auto;
         }
 
+        /* Individual File Item Card */
         .file-item {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .file-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #f1f5f9;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .file-info {
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            margin-right: 8px;
         }
 
         .file-name {
@@ -123,11 +134,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-
-        .file-size {
-            font-size: 11px;
-            color: #64748b;
+            max-width: 320px;
         }
 
         .delete-btn {
@@ -135,18 +142,91 @@
             border: none;
             color: #ef4444;
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
             font-weight: bold;
-            font-size: 14px;
-            width: auto;
-            margin: 0;
+            font-size: 15px;
+            line-height: 1;
             transition: background-color 0.2s;
         }
 
         .delete-btn:hover {
             background-color: #fee2e2;
             color: #dc2626;
+        }
+
+        /* File Controls & Stepper Row */
+        .file-controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Stepper Component (Minus, Count, Plus) */
+        .stepper-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stepper-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .stepper {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        .stepper-btn {
+            background: #f1f5f9;
+            border: none;
+            color: #334155;
+            font-weight: bold;
+            font-size: 14px;
+            width: 28px;
+            height: 26px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            transition: background-color 0.15s;
+        }
+
+        .stepper-btn:hover:not(:disabled) {
+            background-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .stepper-btn:disabled {
+            color: #cbd5e1;
+            cursor: not-allowed;
+            background-color: #f8fafc;
+        }
+
+        .stepper-count {
+            padding: 0 10px;
+            font-weight: 600;
+            font-size: 12px;
+            color: #0f172a;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .file-size-info {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 500;
         }
 
         select {
@@ -181,9 +261,9 @@
         }
 
         #status {
-            margin-top: 16px;
+            margin-top: 14px;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 13px;
             text-align: center;
             min-height: 20px;
         }
@@ -202,6 +282,10 @@
     <div class="card">
         <h2>BRACU Print Station</h2>
 
+        <div class="info-banner">
+            ℹ️ <strong>Print Queue Info:</strong> Jobs expire after <strong>4 hours</strong>. Page ranges can be adjusted directly on the physical printer touchscreen.
+        </div>
+
         <div class="form-group">
             <label>Select Files:</label>
             <div class="drop-zone" id="dropZone" onclick="document.getElementById('file').click()">
@@ -219,7 +303,7 @@
             <input type="file" id="file" accept=".pdf,.docx,.pptx,.xlsx" multiple style="display: none;"
                 onchange="handleFileSelect(this)">
 
-            <!-- Container for list of chosen files -->
+            <!-- Container for list of chosen files with per-file steppers -->
             <div id="fileList" class="file-list"></div>
         </div>
 
@@ -262,7 +346,7 @@
 
         function addFiles(files) {
             for (var i = 0; i < files.length; i++) {
-                selectedFiles.push(files[i]);
+                selectedFiles.push({ file: files[i], copies: 1 });
             }
             fileInput.value = ''; // Reset input to allow re-selecting same files
             renderFileList();
@@ -273,31 +357,51 @@
             renderFileList();
         }
 
+        function changeCopies(index, delta) {
+            var currentCopies = selectedFiles[index].copies;
+            var newCopies = currentCopies + delta;
+            
+            if (newCopies < 1) newCopies = 1;
+            if (newCopies > 40) newCopies = 40;
+
+            selectedFiles[index].copies = newCopies;
+            renderFileList();
+        }
+
+        function getGrandTotalBytes() {
+            var total = 0;
+            for (var i = 0; i < selectedFiles.length; i++) {
+                total += selectedFiles[i].file.size * selectedFiles[i].copies;
+            }
+            return total;
+        }
+
         function renderFileList() {
             var fileListContainer = document.getElementById('fileList');
             fileListContainer.innerHTML = '';
-            var totalSizeMB = 0;
+            var grandTotalBytes = getGrandTotalBytes();
+            var totalJobs = 0;
 
-            selectedFiles.forEach(function (file, index) {
-                var sizeMB = file.size / (1024 * 1024);
-                totalSizeMB += sizeMB;
+            selectedFiles.forEach(function (item, index) {
+                var file = item.file;
+                var copies = item.copies;
+                var singleSizeMB = file.size / (1024 * 1024);
+                var totalItemBytes = file.size * copies;
+                var totalItemSizeMB = totalItemBytes / (1024 * 1024);
 
-                var item = document.createElement('div');
-                item.className = 'file-item';
+                totalJobs += copies;
 
-                var fileInfo = document.createElement('div');
-                fileInfo.className = 'file-info';
+                // Main card element
+                var card = document.createElement('div');
+                card.className = 'file-item';
 
-                var fileName = document.createElement('span');
-                fileName.className = 'file-name';
-                fileName.innerText = file.name;
+                // File Header (Name + Remove Button)
+                var header = document.createElement('div');
+                header.className = 'file-header';
 
-                var fileSize = document.createElement('span');
-                fileSize.className = 'file-size';
-                fileSize.innerText = sizeMB.toFixed(2) + ' MB';
-
-                fileInfo.appendChild(fileName);
-                fileInfo.appendChild(fileSize);
+                var nameEl = document.createElement('span');
+                nameEl.className = 'file-name';
+                nameEl.innerText = file.name;
 
                 var deleteBtn = document.createElement('button');
                 deleteBtn.type = 'button';
@@ -309,15 +413,71 @@
                     removeFile(index);
                 };
 
-                item.appendChild(fileInfo);
-                item.appendChild(deleteBtn);
-                fileListContainer.appendChild(item);
+                header.appendChild(nameEl);
+                header.appendChild(deleteBtn);
+
+                // Controls Row (Stepper + Size Info)
+                var controlsRow = document.createElement('div');
+                controlsRow.className = 'file-controls-row';
+
+                // Stepper component (Minus, Count, Plus)
+                var stepperContainer = document.createElement('div');
+                stepperContainer.className = 'stepper-container';
+
+                var label = document.createElement('span');
+                label.className = 'stepper-label';
+                label.innerText = 'Copies:';
+
+                var stepper = document.createElement('div');
+                stepper.className = 'stepper';
+
+                var minusBtn = document.createElement('button');
+                minusBtn.type = 'button';
+                minusBtn.className = 'stepper-btn';
+                minusBtn.innerText = '−';
+                minusBtn.disabled = (copies <= 1);
+                minusBtn.onclick = function () { changeCopies(index, -1); };
+
+                var countSpan = document.createElement('span');
+                countSpan.className = 'stepper-count';
+                countSpan.innerText = copies;
+
+                var plusBtn = document.createElement('button');
+                plusBtn.type = 'button';
+                plusBtn.className = 'stepper-btn';
+                plusBtn.innerText = '+';
+                
+                // Disable plus button if next copy would exceed 25 MB limit or 40 copies
+                var nextTotalBytes = grandTotalBytes + file.size;
+                plusBtn.disabled = (copies >= 40 || nextTotalBytes > 25 * 1024 * 1024);
+                plusBtn.onclick = function () { changeCopies(index, 1); };
+
+                stepper.appendChild(minusBtn);
+                stepper.appendChild(countSpan);
+                stepper.appendChild(plusBtn);
+
+                stepperContainer.appendChild(label);
+                stepperContainer.appendChild(stepper);
+
+                // File Size Info
+                var sizeInfo = document.createElement('span');
+                sizeInfo.className = 'file-size-info';
+                sizeInfo.innerText = copies > 1 
+                    ? totalItemSizeMB.toFixed(2) + ' MB (' + copies + ' × ' + singleSizeMB.toFixed(2) + ' MB)' 
+                    : singleSizeMB.toFixed(2) + ' MB';
+
+                controlsRow.appendChild(stepperContainer);
+                controlsRow.appendChild(sizeInfo);
+
+                card.appendChild(header);
+                card.appendChild(controlsRow);
+                fileListContainer.appendChild(card);
             });
 
-            updateDropZoneUI(totalSizeMB);
+            updateDropZoneUI(grandTotalBytes / (1024 * 1024), totalJobs);
         }
 
-        function updateDropZoneUI(totalSizeMB) {
+        function updateDropZoneUI(grandTotalMB, totalJobs) {
             var dropText = document.getElementById('dropText');
             var dropSubtext = document.getElementById('dropSubtext');
             var dropIcon = document.getElementById('dropIcon');
@@ -327,8 +487,8 @@
                 dropZone.style.backgroundColor = '#f0fdf4';
                 dropIcon.style.stroke = '#16a34a';
 
-                dropText.innerHTML = '<span style="color: #15803d; font-weight: 600;">✓ ' + selectedFiles.length + ' file(s) added</span>';
-                dropSubtext.innerText = totalSizeMB.toFixed(2) + ' MB total — Click or drag to add more';
+                dropText.innerHTML = '<span style="color: #15803d; font-weight: 600;">✓ ' + selectedFiles.length + ' file(s) added (' + totalJobs + ' total print job' + (totalJobs > 1 ? 's' : '') + ')</span>';
+                dropSubtext.innerText = grandTotalMB.toFixed(2) + ' MB total attachment size';
             } else {
                 dropZone.style.borderColor = '#cbd5e1';
                 dropZone.style.backgroundColor = '#f8fafc';
@@ -339,16 +499,17 @@
             }
         }
 
-        function readFileAsBase64(file) {
+        function readFileAsBase64(item) {
             return new Promise((resolve, reject) => {
                 var reader = new FileReader();
                 reader.onload = () => resolve({
-                    fileName: file.name,
-                    mimeType: file.type,
+                    fileName: item.file.name,
+                    mimeType: item.file.type,
+                    copies: item.copies,
                     base64: reader.result.split(',')[1]
                 });
                 reader.onerror = error => reject(error);
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(item.file);
             });
         }
 
@@ -363,20 +524,21 @@
                 return;
             }
 
-            var totalSize = 0;
+            var totalBytes = getGrandTotalBytes();
+            var totalJobs = 0;
             for (var i = 0; i < selectedFiles.length; i++) {
-                totalSize += selectedFiles[i].size;
+                totalJobs += selectedFiles[i].copies;
             }
 
-            if (totalSize > 25 * 1024 * 1024) {
+            if (totalBytes > 25 * 1024 * 1024) {
                 statusDiv.className = 'error';
-                statusDiv.innerText = 'Combined file size exceeds 25 MB.';
+                statusDiv.innerText = 'Total attachment size across all file copies exceeds 25 MB (' + (totalBytes / (1024 * 1024)).toFixed(2) + ' MB).';
                 return;
             }
 
             btn.disabled = true;
             statusDiv.className = '';
-            statusDiv.innerText = 'Processing ' + selectedFiles.length + ' file(s)...';
+            statusDiv.innerText = 'Sending ' + totalJobs + ' print job(s) across ' + selectedFiles.length + ' file(s)...';
 
             try {
                 var filePromises = selectedFiles.map(readFileAsBase64);

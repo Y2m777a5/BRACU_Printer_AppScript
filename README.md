@@ -26,6 +26,6 @@ This project provides a web interface and Google Sheet modal dialog for submitti
 - **Live Size Calculation**: Recalculates total attachment size dynamically when copies are incremented/decremented and prevents exceeding the 25 MB limit.
 - **Info Notice**: Displays campus printing rules (jobs expire after 4 hours; page range selection can also be adjusted directly on physical printer touchscreens).
 - **Supported Formats**: `.pdf`, `.docx`, `.pptx`, `.xlsx`.
-- **Print Settings**: Option to toggle between Single-sided and Double-sided (`#duplex`) printing.
+- **Google Sheets Style Pill Dropdown**: Beautiful custom pill selector for Print Options (*Single-sided* green vs. *Double-sided (#duplex)* yellow-orange) with smooth animations and outside click dismissal.
 - **File Management**: Live file listing with cumulative size checking (factoring in copies count).
 - **Client-Side Processing**: Converts files to Base64 asynchronously and communicates with the backend via `google.script.run`.

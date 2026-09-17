@@ -50,11 +50,21 @@ function processUpload(payload) {
       }
     }
 
+    // Make sure 'subject' is declared before calling GmailApp.sendEmail
     var isDuplex = payload.printMode === "duplex";
     var subject = isDuplex ? "#duplex" : "";
 
-    GmailApp.sendEmail("campus.printer@g.bracu.ac.bd", subject, "", {
-      attachments: blobs
+    var senderName = Session.getActiveUser().getEmail(); // gets their email
+    // or, if you want a display name, try their name from the effective user
+    GmailApp.sendEmail("campus.printer@g.bracu.ac.bd", subject, "Print job submission.", {
+      attachments: blobs,
+      name: senderName
+    });
+
+    // Send email with defined subject and non-empty body
+    GmailApp.sendEmail("campus.printer@g.bracu.ac.bd", subject, "Print job submission.", {
+      attachments: blobs,
+      name: "JOY KUMER TARAFDER"
     });
 
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
